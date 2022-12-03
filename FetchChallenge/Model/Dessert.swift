@@ -10,7 +10,7 @@ import Foundation
 struct Dessert: Decodable, Identifiable {
     let mealName: String
     let imageStrURL: String
-    let id: Int
+    let id: String
     
     var imageURL: URL? {
         URL(string: imageStrURL)
@@ -22,4 +22,8 @@ struct Dessert: Decodable, Identifiable {
         case id = "idMeal"
     }
     
+}
+
+struct TestTest: Decodable {
+    let meals: [Dessert]
 }

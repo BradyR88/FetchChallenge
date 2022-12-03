@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Meal {
+struct Meal: Decodable {
     let id: Int
     let mealName: String
     let strDrinkAlternate: String?
