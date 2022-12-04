@@ -17,9 +17,9 @@ class ViewModel: ObservableObject {
         guard desserts.isEmpty else { return }
         
         do {
-            let data: MealTypes = try await APIGitter().fetch(.dessertList)
+            let data: [String:[Dessert]] = try await APIGitter().fetch(.dessertList)
             DispatchQueue.main.async {
-                self.desserts = data.meals
+                self.desserts = data["meals"]?.sorted() ?? []
             }
         }
         catch {

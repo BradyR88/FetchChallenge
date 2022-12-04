@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Dessert: Decodable, Identifiable {
+struct Dessert: Comparable, Decodable, Identifiable {
     let mealName: String
     let imageStrURL: String
     let id: String
@@ -16,14 +16,14 @@ struct Dessert: Decodable, Identifiable {
         URL(string: imageStrURL)
     }
     
+    static func < (lhs: Dessert, rhs: Dessert) -> Bool {
+        lhs.mealName < rhs.mealName
+    }
+    
     private enum CodingKeys: String, CodingKey {
         case mealName = "strMeal"
         case imageStrURL = "strMealThumb"
         case id = "idMeal"
     }
     
-}
-
-struct MealTypes: Decodable {
-    let meals: [Dessert]
 }
