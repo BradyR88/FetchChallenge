@@ -24,6 +24,6 @@ struct Dessert: Decodable, Identifiable {
     
 }
 
-struct TestTest: Decodable {
+struct MealTypes: Decodable {
     let meals: [Dessert]
 }

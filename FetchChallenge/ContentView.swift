@@ -12,13 +12,12 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List(viewModel.desserts.meals) { meal in
+            List(viewModel.desserts) { meal in
                 NavigationLink {
                     MealView()
                 } label: {
                     Text(meal.mealName)
                 }
-
             }
         }
         .onAppear {

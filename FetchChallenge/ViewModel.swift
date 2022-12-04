@@ -10,16 +10,16 @@ import Foundation
 @MainActor
 class ViewModel: ObservableObject {
     
-    @Published var desserts: TestTest = TestTest(meals: [])
-    @Published var meal: Meal? = nil
+    @Published var desserts: [Dessert] = []
+    @Published var recipe: Recipe? = nil
     
     func gitDesserts()async {
-        //guard desserts.isEmpty else { return }
+        guard desserts.isEmpty else { return }
         
         do {
-            let data: TestTest = try await APIGitter().fetch(.dessertList)
+            let data: MealTypes = try await APIGitter().fetch(.dessertList)
             DispatchQueue.main.async {
-                self.desserts = data
+                self.desserts = data.meals
             }
         }
         catch {
@@ -30,9 +30,9 @@ class ViewModel: ObservableObject {
     
     func gitMeals(for id: Int)async {
         do {
-            let data: Meal = try await APIGitter().fetch(.meal(id: String(id)))
+            let data: Recipe = try await APIGitter().fetch(.meal(id: String(id)))
             DispatchQueue.main.async {
-                self.meal = data
+                self.recipe = data
             }
         }
         catch {
