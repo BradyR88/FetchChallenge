@@ -11,7 +11,11 @@ import Foundation
 class ViewModel: ObservableObject {
     
     @Published var desserts: [Dessert] = []
-    @Published var recipe: Recipe? = nil
+    @Published private var recipe: Recipe? = nil
+    
+    var recipeSafe: Recipe {
+        recipe ?? Recipe.example
+    }
     
     func gitDesserts()async {
         guard desserts.isEmpty else { return }
@@ -28,11 +32,11 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func gitMeals(for id: Int)async {
+    func gitMeals(forID id: String)async {
         do {
-            let data: Recipe = try await APIGitter().fetch(.meal(id: String(id)))
+            let data: [String:[Recipe]] = try await APIGitter().fetch(.meal(id: id))
             DispatchQueue.main.async {
-                self.recipe = data
+                self.recipe = data["meals"]?.first ?? nil
             }
         }
         catch {

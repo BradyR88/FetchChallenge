@@ -17,6 +17,7 @@ struct APIGitter {
             urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert"
         case .meal(let id):
             urlString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(id)"
+            print("going to url \(urlString)")
         }
         
         return try await data(from: urlString)

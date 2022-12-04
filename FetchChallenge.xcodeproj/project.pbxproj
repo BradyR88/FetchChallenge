@@ -42,6 +42,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		73892A3D293C3CB500F0F99B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				73EAD163293A8459004AEA8D /* ContentView.swift */,
+				73EAD179293AA655004AEA8D /* MealView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		73EAD155293A8459004AEA8D = {
 			isa = PBXGroup;
 			children = (
@@ -62,8 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				73EAD161293A8459004AEA8D /* FetchChallengeApp.swift */,
-				73EAD163293A8459004AEA8D /* ContentView.swift */,
-				73EAD179293AA655004AEA8D /* MealView.swift */,
+				73892A3D293C3CB500F0F99B /* Views */,
 				73EAD177293AA0EE004AEA8D /* ViewModel.swift */,
 				73EAD16F293A84DF004AEA8D /* APIGroup */,
 				73EAD172293A85CD004AEA8D /* Model */,

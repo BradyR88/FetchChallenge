@@ -18,6 +18,12 @@ struct ContentView: View {
                 } label: {
                     Text(meal.mealName)
                 }
+                .onTapGesture {
+                    Task {
+                        print("go to \(meal)")
+                        await viewModel.gitMeals(forID: meal.id)
+                    }
+                }
             }
         }
         .onAppear {
