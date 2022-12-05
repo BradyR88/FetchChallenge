@@ -24,12 +24,8 @@ struct APIGitter {
     }
     
     private func data<T: Decodable>(from urlString: String)async throws -> T {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
         guard let url = URL(string: urlString) else { throw URLError(.badURL) }
-        let data = try await URLSession.shared.decode(T.self, from: url, dateDecodingStrategy: .formatted(dateFormatter))
+        let data = try await URLSession.shared.decode(T.self, from: url)
         print("parsed data \(data)")
         return data
     }
