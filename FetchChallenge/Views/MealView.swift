@@ -11,26 +11,25 @@ struct MealView: View {
     @EnvironmentObject var viewModel: ViewModel
     
     var body: some View {
-        VStack {
-            AsyncImage(url: viewModel.recipeImageURL) { image in
-                image.resizable()
-            } placeholder: {
-                ZStack {
-                    Color.gray
-                    ProgressView()
+        ScrollView {
+            VStack {
+                AsyncImage(url: viewModel.recipeImageURL) { image in
+                    image.resizable()
+                } placeholder: {
+                    ZStack {
+                        Color.gray
+                        ProgressView()
+                    }
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+                .scaledToFit()
+                
+                Divider()
+                
+                Text(viewModel.recipeSafe.formattedInstructions)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 25))
-            .scaledToFit()
-
-            
-            Divider()
-            
-            Text(viewModel.recipeSafe.strInstructions)
-            
-            
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
         .navigationTitle(viewModel.recipeSafe.strMeal)
     }
 }
