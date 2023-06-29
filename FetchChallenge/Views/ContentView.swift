@@ -9,21 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: ViewModel
+    @State private var showingDestination = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(viewModel.desserts) { meal in
-                NavigationLink {
-                    MealView()
-                } label: {
-                    Text(meal.mealName)
-                }
-                .onTapGesture {
+                Button {
                     Task {
                         print("go to \(meal)")
-                        await viewModel.gitMeals(forID: meal.id)
+                        await viewModel.gitMeal(meal)
+                        showingDestination = true
                     }
+                } label: {
+                    Text(meal.mealName)
+                        .foregroundColor(.primary)
                 }
+            }
+            .navigationDestination(isPresented: $showingDestination) {
+                MealView()
             }
         }
         .onAppear {
@@ -37,5 +40,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(ViewModel())
     }
 }

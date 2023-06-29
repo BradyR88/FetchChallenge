@@ -9,7 +9,7 @@ import Foundation
 
 struct Dessert: Comparable, Decodable, Identifiable {
     let mealName: String
-    let imageStrURL: String
+    private let imageStrURL: String
     let id: String
     
     var imageURL: URL? {

@@ -12,10 +12,25 @@ struct MealView: View {
     
     var body: some View {
         VStack {
-            Text(viewModel.recipeSafe.strInstructions)
+            AsyncImage(url: viewModel.recipeImageURL) { image in
+                image.resizable()
+            } placeholder: {
+                ZStack {
+                    Color.gray
+                    ProgressView()
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 25))
+            .scaledToFit()
+
             
             Divider()
+            
+            Text(viewModel.recipeSafe.strInstructions)
+            
+            
         }
+        .padding(.horizontal)
         .navigationTitle(viewModel.recipeSafe.strMeal)
     }
 }

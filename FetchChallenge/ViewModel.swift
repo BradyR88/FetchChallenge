@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class ViewModel: ObservableObject {
     
     @Published var desserts: [Dessert] = []
     @Published private var recipe: Recipe? = nil
+    private(set) var recipeImageURL: URL? = nil
     
     var recipeSafe: Recipe {
         recipe ?? Recipe.example
@@ -32,9 +34,11 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func gitMeals(forID id: String)async {
+    func gitMeal(_ meal: Dessert)async {
+        recipeImageURL = meal.imageURL
+        
         do {
-            let data: [String:[Recipe]] = try await APIGitter().fetch(.meal(id: id))
+            let data: [String:[Recipe]] = try await APIGitter().fetch(.meal(id: meal.id))
             DispatchQueue.main.async {
                 self.recipe = data["meals"]?.first ?? nil
             }
