@@ -26,7 +26,7 @@ struct Recipe: Decodable {
         return formatted
     }
     
-    enum CodingKeys: String, CodingKey, CaseIterable {
+    enum CodingKeys: String, CaseIterable, CodingKey {
         case idMeal
         case strMeal
         case strInstructions
