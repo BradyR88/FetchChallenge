@@ -34,6 +34,10 @@ struct Recipe: Decodable {
         case strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10, strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15, strMeasure16, strMeasure17, strMeasure18, strMeasure19, strMeasure20
     }
     
+    static let example = Recipe(idMeal: "53049", strMeal: "Apam balik", strInstructions: "Mix milk, oil and egg together. Sift flour, baking powder and salt into the mixture. Stir well until all ingredients are combined evenly.\r\n\r\nSpread some batter onto the pan. Spread a thin layer of batter to the side of the pan. Cover the pan for 30-60 seconds until small air bubbles appear.\r\n\r\nAdd butter, cream corn, crushed peanuts and sugar onto the pancake. Fold the pancake into half once the bottom surface is browned.\r\n\r\nCut into wedges and best eaten when it is warm.", ingredeants: ["Sugar"], measures: ["3 tsp"])
+}
+
+extension Recipe {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -55,16 +59,6 @@ struct Recipe: Decodable {
         }
         self.measures = measures
     }
-    
-    init() {
-        self.idMeal = ""
-        self.strMeal = ""
-        self.strInstructions = ""
-        self.ingredeants = [""]
-        self.measures = [""]
-    }
-    
-    static let example = Recipe()
 }
 
 extension Array where Element == (String,String) {
