@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Recipe: Decodable {
+struct Recipe: Decodable, Equatable {
     let idMeal: String
     let strMeal: String
     let strInstructions: String
@@ -26,6 +26,10 @@ struct Recipe: Decodable {
         return formatted
     }
     
+    static let example = Recipe(idMeal: "53049", strMeal: "Apam balik", strInstructions: "Mix milk, oil and egg together. Sift flour, baking powder and salt into the mixture. Stir well until all ingredients are combined evenly.\r\n\r\nSpread some batter onto the pan. Spread a thin layer of batter to the side of the pan. Cover the pan for 30-60 seconds until small air bubbles appear.\r\n\r\nAdd butter, cream corn, crushed peanuts and sugar onto the pancake. Fold the pancake into half once the bottom surface is browned.\r\n\r\nCut into wedges and best eaten when it is warm.", ingredeants: ["Sugar"], measures: ["3 tsp"])
+}
+
+extension Recipe {
     enum CodingKeys: String, CaseIterable, CodingKey {
         case idMeal
         case strMeal
@@ -34,10 +38,6 @@ struct Recipe: Decodable {
         case strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10, strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15, strMeasure16, strMeasure17, strMeasure18, strMeasure19, strMeasure20
     }
     
-    static let example = Recipe(idMeal: "53049", strMeal: "Apam balik", strInstructions: "Mix milk, oil and egg together. Sift flour, baking powder and salt into the mixture. Stir well until all ingredients are combined evenly.\r\n\r\nSpread some batter onto the pan. Spread a thin layer of batter to the side of the pan. Cover the pan for 30-60 seconds until small air bubbles appear.\r\n\r\nAdd butter, cream corn, crushed peanuts and sugar onto the pancake. Fold the pancake into half once the bottom surface is browned.\r\n\r\nCut into wedges and best eaten when it is warm.", ingredeants: ["Sugar"], measures: ["3 tsp"])
-}
-
-extension Recipe {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -48,23 +48,20 @@ extension Recipe {
         var ingredients: [String] = []
         for key in CodingKeys.allCases.filter({ key in key.rawValue.contains("strIngredient") }) {
             let newElement = try container.decode(String.self, forKey: key)
-            ingredients.append(newElement)
+            if !newElement.isEmpty {
+                ingredients.append(newElement)
+            }
+            
         }
         self.ingredeants = ingredients
         
         var measures: [String] = []
         for key in CodingKeys.allCases.filter({ key in key.rawValue.contains("strMeasure") }) {
             let newElement = try container.decode(String.self, forKey: key)
-            measures.append(newElement)
+            if !newElement.isEmpty {
+                measures.append(newElement)
+            }
         }
         self.measures = measures
-    }
-}
-
-extension Array where Element == (String,String) {
-    mutating func sppendNoBlank(_ newElement: Element) {
-        if newElement.0 != "" || newElement.1 != "" {
-            self.append(newElement)
-        }
     }
 }
