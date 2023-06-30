@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: ViewModel
-    @State private var showingDestination = false
+    @State private var showingDestination = false 
     
     var body: some View {
         NavigationStack {
@@ -32,6 +32,15 @@ struct ContentView: View {
             Task {
                 await viewModel.gitDesserts()
             }
+        }
+        .alert("Error", isPresented: $viewModel.showingAlert) {
+            Button("Retry") {
+                Task {
+                    await viewModel.gitDesserts()
+                }
+            }
+        } message: {
+            Text("There was difficulty retrieving recipe data. Check your Internet connection and try again.")
         }
     }
 }

@@ -13,10 +13,12 @@ class ViewModel: ObservableObject {
     
     @Published var desserts: [Dessert] = []
     @Published private var recipe: Recipe? = nil
+    @Published var showingAlert = false
+    
     private(set) var recipeImageURL: URL? = nil
     
     var recipeSafe: Recipe {
-        recipe ?? Recipe.example
+        recipe ?? Recipe(idMeal: "", strMeal: "Loading", strInstructions: "", ingredeants: [], measures: [])
     }
     
     func gitDesserts()async {
@@ -29,8 +31,7 @@ class ViewModel: ObservableObject {
             }
         }
         catch {
-            // do error handaling hear
-            print("\(error)")
+            showingAlert = true
         }
     }
     
@@ -44,8 +45,7 @@ class ViewModel: ObservableObject {
             }
         }
         catch {
-            // do error handaling hear
-            print("\(error)")
+            showingAlert = true
         }
     }
 }
