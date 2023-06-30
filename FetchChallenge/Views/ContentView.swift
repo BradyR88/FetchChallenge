@@ -15,10 +15,9 @@ struct ContentView: View {
         NavigationStack {
             List(viewModel.desserts) { meal in
                 Button {
+                    showingDestination = true
                     Task {
-                        print("go to \(meal)")
                         await viewModel.gitMeal(meal)
-                        showingDestination = true
                     }
                 } label: {
                     Text(meal.mealName)
