@@ -62,9 +62,13 @@ extension Recipe {
             switch key.stringValue {
             case let value where value.contains("strIngredient"):
                 let newValue = try? container.decode(String.self, forKey: CustomKey(stringValue: value)!)
+                guard let newValue = newValue else { continue }
+                guard newValue.trimmingCharacters(in: .whitespacesAndNewlines) != "" else { continue }
                 _ingredients.append(newValue)
             case let value where value.contains("strMeasure"):
                 let newValue = try? container.decode(String.self, forKey: CustomKey(stringValue: value)!)
+                guard let newValue = newValue else { continue }
+                guard newValue.trimmingCharacters(in: .whitespacesAndNewlines) != "" else { continue }
                 _measures.append(newValue)
             default:
                 continue
