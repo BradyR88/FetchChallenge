@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct Recipe: Decodable, Equatable {
+struct Recipe {
     let idMeal: String
     let strMeal: String
     let strInstructions: String
-    var ingredeants: [String]
+    var ingredients: [String]
     var measures: [String]
     
     var formattedInstructions: String {
         var formatted = ""
-        for (index, ingredient) in ingredeants.enumerated() {
+        for (index, ingredient) in ingredients.enumerated() {
             if !ingredient.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 formatted.append("\(measures[index]) - \(ingredient)\n")
             }
@@ -26,8 +26,12 @@ struct Recipe: Decodable, Equatable {
         return formatted
     }
     
-    static let example = Recipe(idMeal: "53049", strMeal: "Apam balik", strInstructions: "Mix milk, oil and egg together. Sift flour, baking powder and salt into the mixture. Stir well until all ingredients are combined evenly.\r\n\r\nSpread some batter onto the pan. Spread a thin layer of batter to the side of the pan. Cover the pan for 30-60 seconds until small air bubbles appear.\r\n\r\nAdd butter, cream corn, crushed peanuts and sugar onto the pancake. Fold the pancake into half once the bottom surface is browned.\r\n\r\nCut into wedges and best eaten when it is warm.", ingredeants: ["Sugar"], measures: ["3 tsp"])
+    static let example = Recipe(idMeal: "53049", strMeal: "Apam balik", strInstructions: "Mix milk, oil and egg together. Sift flour, baking powder and salt into the mixture. Stir well until all ingredients are combined evenly.\r\n\r\nSpread some batter onto the pan. Spread a thin layer of batter to the side of the pan. Cover the pan for 30-60 seconds until small air bubbles appear.\r\n\r\nAdd butter, cream corn, crushed peanuts and sugar onto the pancake. Fold the pancake into half once the bottom surface is browned.\r\n\r\nCut into wedges and best eaten when it is warm.", ingredients: ["Sugar"], measures: ["3 tsp"])
 }
+
+extension Recipe: Decodable { }
+
+extension Recipe: Equatable { }
 
 extension Recipe {
     enum CodingKeys: String, CaseIterable, CodingKey {
@@ -45,23 +49,25 @@ extension Recipe {
         self.strMeal = try container.decode(String.self, forKey: .strMeal)
         self.strInstructions = try container.decode(String.self, forKey: .strInstructions)
         
-        var ingredients: [String] = []
+        var ingredients: [String?] = []
         for key in CodingKeys.allCases.filter({ key in key.rawValue.contains("strIngredient") }) {
-            let newElement = try container.decode(String.self, forKey: key)
-            if !newElement.isEmpty {
+            let newElement = try? container.decode(String.self, forKey: key)
+            if !(newElement?.isEmpty ?? true) {
                 ingredients.append(newElement)
             }
             
         }
-        self.ingredeants = ingredients
+        self.ingredients = ingredients.compactMap { $0 }
         
-        var measures: [String] = []
+        var measures: [String?] = []
         for key in CodingKeys.allCases.filter({ key in key.rawValue.contains("strMeasure") }) {
-            let newElement = try container.decode(String.self, forKey: key)
-            if !newElement.isEmpty {
+            let newElement = try? container.decode(String.self, forKey: key)
+            if !(newElement?.isEmpty ?? true) {
                 measures.append(newElement)
             }
         }
-        self.measures = measures
+        self.measures = measures.compactMap { $0 }
     }
 }
+
+

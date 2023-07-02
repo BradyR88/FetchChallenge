@@ -18,7 +18,7 @@ class ViewModel: ObservableObject {
     private(set) var recipeImageURL: URL? = nil
     
     var recipeSafe: Recipe {
-        recipe ?? Recipe(idMeal: "", strMeal: "Loading", strInstructions: "", ingredeants: [], measures: [])
+        recipe ?? Recipe(idMeal: "", strMeal: "Loading", strInstructions: "", ingredients: [], measures: [])
     }
     
     func gitDesserts()async {
