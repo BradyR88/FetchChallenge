@@ -17,7 +17,6 @@ struct APIGitter {
             urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert"
         case .meal(let id):
             urlString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(id)"
-            print("going to url \(urlString)")
         }
         
         return try await data(from: urlString)
@@ -26,7 +25,6 @@ struct APIGitter {
     private func data<T: Decodable>(from urlString: String)async throws -> T {
         guard let url = URL(string: urlString) else { throw URLError(.badURL) }
         let data = try await URLSession.shared.decode(T.self, from: url)
-        print("parsed data \(data)")
         return data
     }
     

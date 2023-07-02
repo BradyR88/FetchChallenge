@@ -11,8 +11,8 @@ struct Recipe {
     let idMeal: String
     let strMeal: String
     let strInstructions: String
-    var ingredients: [String]
-    var measures: [String]
+    let ingredients: [String]
+    let measures: [String]
     
     var formattedInstructions: String {
         var formatted = ""

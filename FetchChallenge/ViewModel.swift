@@ -49,3 +49,10 @@ class ViewModel: ObservableObject {
         }
     }
 }
+
+extension ViewModel {
+    convenience init(isPreview: Bool = false) {
+        self.init()
+        recipe = .example
+    }
+}

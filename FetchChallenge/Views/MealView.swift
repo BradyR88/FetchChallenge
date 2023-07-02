@@ -47,6 +47,6 @@ struct MealView: View {
 struct MealView_Previews: PreviewProvider {
     static var previews: some View {
         MealView()
-            .environmentObject(ViewModel())
+            .environmentObject(ViewModel(isPreview: true))
     }
 }
