@@ -35,7 +35,7 @@ struct MealView: View {
         .alert("Error", isPresented: $viewModel.showingAlert) {
             Button("Retry") {
                 Task {
-                    await viewModel.gitDesserts()
+                    await viewModel.getDesserts()
                 }
             }
         } message: {

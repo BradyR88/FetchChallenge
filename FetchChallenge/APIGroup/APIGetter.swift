@@ -1,5 +1,5 @@
 //
-//  APIGiter.swift
+//  APIGetter.swift
 //  FetchChallenge
 //
 //  Created by Brady Robshaw on 6/29/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct APIGitter {
+struct APIGetter {
     
     func fetch<T: Decodable>(_ callType: CallType)async throws -> T {
         let urlString: String

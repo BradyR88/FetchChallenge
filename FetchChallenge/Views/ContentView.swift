@@ -17,7 +17,7 @@ struct ContentView: View {
                 Button {
                     showingDestination = true
                     Task {
-                        await viewModel.gitMeal(meal)
+                        await viewModel.getMeal(meal)
                     }
                 } label: {
                     Text(meal.mealName)
@@ -30,13 +30,13 @@ struct ContentView: View {
         }
         .onAppear {
             Task {
-                await viewModel.gitDesserts()
+                await viewModel.getDesserts()
             }
         }
         .alert("Error", isPresented: $viewModel.showingAlert) {
             Button("Retry") {
                 Task {
-                    await viewModel.gitDesserts()
+                    await viewModel.getDesserts()
                 }
             }
         } message: {

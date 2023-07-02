@@ -21,11 +21,11 @@ class ViewModel: ObservableObject {
         recipe ?? Recipe(idMeal: "", strMeal: "Loading", strInstructions: "", ingredients: [], measures: [])
     }
     
-    func gitDesserts()async {
+    func getDesserts()async {
         guard desserts.isEmpty else { return }
         
         do {
-            let data: [String:[Dessert]] = try await APIGitter().fetch(.dessertList)
+            let data: [String:[Dessert]] = try await APIGetter().fetch(.dessertList)
             DispatchQueue.main.async {
                 self.desserts = data["meals"]?.sorted() ?? []
             }
@@ -35,11 +35,11 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func gitMeal(_ meal: Dessert)async {
+    func getMeal(_ meal: Dessert)async {
         recipeImageURL = meal.imageURL
         
         do {
-            let data: [String:[Recipe]] = try await APIGitter().fetch(.meal(id: meal.id))
+            let data: [String:[Recipe]] = try await APIGetter().fetch(.meal(id: meal.id))
             DispatchQueue.main.async {
                 self.recipe = data["meals"]?.first ?? nil
             }
