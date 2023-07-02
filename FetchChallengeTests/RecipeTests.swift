@@ -33,5 +33,16 @@ final class RecipeTests: XCTestCase {
         XCTAssertEqual(returnedRecipeModel, expectedReturn, "Decoded JSON doesn't match the given Recipe() object")
         
     }
-
+    
+    func test_formattingInstructions() {
+        //Given
+        let given = Recipe(idMeal: "52910", strMeal: "Chinon Apple Tarts", strInstructions: "To make the red wine jelly, put the red wine, jam sugar, star anise, clove, cinnamon stick, allspice, split vanilla pod and seeds in a medium saucepan. Stir together, then heat gently to dissolve the sugar.", ingredients: ["Puff Pastry","Dark Brown Soft Sugar"], measures: ["320g","4 tbs"])
+        
+        //When
+        let formattedInstructions = given.formattedInstructions
+        
+        //Then
+        let expectedReturn = "320g - Puff Pastry\n4 tbs - Dark Brown Soft Sugar\n\nTo make the red wine jelly, put the red wine, jam sugar, star anise, clove, cinnamon stick, allspice, split vanilla pod and seeds in a medium saucepan. Stir together, then heat gently to dissolve the sugar."
+        XCTAssertEqual(formattedInstructions, expectedReturn, "Incorrectly formatting instruction text.")
+    }
 }

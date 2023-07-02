@@ -34,40 +34,45 @@ extension Recipe: Decodable { }
 extension Recipe: Equatable { }
 
 extension Recipe {
-    enum CodingKeys: String, CaseIterable, CodingKey {
-        case idMeal
-        case strMeal
-        case strInstructions
-        case strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10, strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15, strIngredient16, strIngredient17, strIngredient18, strIngredient19, strIngredient20
-        case strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10, strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15, strMeasure16, strMeasure17, strMeasure18, strMeasure19, strMeasure20
+    struct CustomKey: CodingKey {
+        var stringValue: String
+        
+        init?(stringValue: String) {
+            self.stringValue = stringValue
+        }
+        
+        //include this to satisfy the protocol
+        var intValue: Int?
+        
+        init?(intValue: Int) {
+            return nil
+        }
     }
     
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CustomKey.self)
         
-        self.idMeal = try container.decode(String.self, forKey: .idMeal)
-        self.strMeal = try container.decode(String.self, forKey: .strMeal)
-        self.strInstructions = try container.decode(String.self, forKey: .strInstructions)
+        self.idMeal = try container.decode(String.self, forKey: CustomKey(stringValue: "idMeal")!)
+        self.strMeal = try container.decode(String.self, forKey: CustomKey(stringValue: "strMeal")!)
+        self.strInstructions = try container.decode(String.self, forKey: CustomKey(stringValue: "strInstructions")!)
         
-        var ingredients: [String?] = []
-        for key in CodingKeys.allCases.filter({ key in key.rawValue.contains("strIngredient") }) {
-            let newElement = try? container.decode(String.self, forKey: key)
-            if !(newElement?.isEmpty ?? true) {
-                ingredients.append(newElement)
-            }
-            
-        }
-        self.ingredients = ingredients.compactMap { $0 }
-        
-        var measures: [String?] = []
-        for key in CodingKeys.allCases.filter({ key in key.rawValue.contains("strMeasure") }) {
-            let newElement = try? container.decode(String.self, forKey: key)
-            if !(newElement?.isEmpty ?? true) {
-                measures.append(newElement)
+        var _ingredients: [String?] = []
+        var _measures: [String?] = []
+        for key in container.allKeys.sorted(by: { $0.stringValue <= $1.stringValue }) {
+            switch key.stringValue {
+            case let value where value.contains("strIngredient"):
+                let newValue = try? container.decode(String.self, forKey: CustomKey(stringValue: value)!)
+                _ingredients.append(newValue)
+            case let value where value.contains("strMeasure"):
+                let newValue = try? container.decode(String.self, forKey: CustomKey(stringValue: value)!)
+                _measures.append(newValue)
+            default:
+                continue
             }
         }
-        self.measures = measures.compactMap { $0 }
+        
+        self.ingredients = _ingredients.compactMap { $0 }.filter{ !$0.isEmpty }
+        self.measures = _measures.compactMap { $0 }.filter{ !$0.isEmpty }
     }
 }
-
 
