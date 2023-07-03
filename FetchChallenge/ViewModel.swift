@@ -10,7 +10,6 @@ import SwiftUI
 
 @MainActor
 class ViewModel: ObservableObject {
-    
     @Published var desserts: [Dessert] = []
     @Published private var recipe: Recipe? = nil
     @Published var showingAlert = false
